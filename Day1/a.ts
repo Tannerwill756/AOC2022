@@ -5,7 +5,7 @@ const input = await Deno.readTextFile("./input.txt");
 let currentNumber = '';
 let currentTotal = 0;
 
-let highestTotal = 0;
+const highestTotal:any = [0,0,0];
 
 const string = input.replace(/(\r\n|\n|\r)/gm, "-");
 
@@ -14,9 +14,13 @@ const string = input.replace(/(\r\n|\n|\r)/gm, "-");
 for(let i = 0; i < string.length; i++){
     if(string[i] === '-' && string[i+1] === '-'){
         currentTotal = currentTotal + Number(currentNumber);
-        if(currentTotal > highestTotal){
-            highestTotal = currentTotal;
+        let smallestInCollection = Math.min(...highestTotal);
+        let indexOfSmallest = highestTotal.indexOf(smallestInCollection);
+
+        if(currentTotal > smallestInCollection){
+            highestTotal.splice(indexOfSmallest, 1, currentTotal);
         }
+        
         currentTotal = 0;
         currentNumber = '';
         continue;
